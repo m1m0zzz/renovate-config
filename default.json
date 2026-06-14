@@ -1,8 +1,6 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:best-practices"
-  ],
+  "extends": ["config:best-practices"],
   "dependencyDashboard": false,
   "timezone": "Asia/Tokyo",
   "labels": ["dependencies"],
@@ -12,13 +10,16 @@
       "automerge": false
     },
     {
-      "matchUpdateTypes": [
-        "minor",
-        "patch",
-        "pin",
-        "digest"
-      ],
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
       "automerge": true
+    },
+    {
+      "matchPackageNames": ["/eslint/"],
+      "addLabels": ["dependencies:lint"]
+    },
+    {
+      "matchPackageNames": ["/prettier/"],
+      "addLabels": ["dependencies:format"]
     }
   ]
 }
