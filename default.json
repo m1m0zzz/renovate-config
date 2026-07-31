@@ -10,7 +10,12 @@
       "automerge": false
     },
     {
-      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+      "matchUpdateTypes": ["minor", "patch", "pin", "pinDigest", "digest"],
+      "automerge": true
+    },
+    {
+      "description": "lockfile 全体の更新も automerge の対象にする",
+      "matchUpdateTypes": ["lockFileMaintenance"],
       "automerge": true
     },
     {
