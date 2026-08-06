@@ -6,10 +6,12 @@
   "labels": ["dependencies"],
   "packageRules": [
     {
+      "description": "major は人間が判断する",
       "matchUpdateTypes": ["major"],
       "automerge": false
     },
     {
+      "description": "routine な更新は automerge に任せる",
       "matchUpdateTypes": ["minor", "patch", "pin", "pinDigest", "digest"],
       "automerge": true
     },
@@ -17,6 +19,17 @@
       "description": "lockfile 全体の更新も automerge の対象にする",
       "matchUpdateTypes": ["lockFileMaintenance"],
       "automerge": true
+    },
+    {
+      "description": "wrangler と workers-types は peer 依存で結合しているためまとめて更新する",
+      "matchPackageNames": ["wrangler", "@cloudflare/workers-types"],
+      "groupName": "cloudflare",
+      "separateMajorMinor": false
+    },
+    {
+      "description": "astro と @astrojs/* は peer で結合しているためまとめて更新する。@astrojs/svelte@8 の peer が astro ^6.0.0 のように、astro の major を単独で上げると ERESOLVE になる",
+      "matchPackageNames": ["astro", "/^@astrojs\\//"],
+      "groupName": "astro"
     },
     {
       "matchPackageNames": ["/eslint/"],
