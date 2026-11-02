@@ -1,43 +1,23 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:best-practices"],
-  "dependencyDashboard": false,
-  "timezone": "Asia/Tokyo",
-  "labels": ["dependencies"],
+  "extends": ["github>m1m0zzz/renovate-config:base"],
+  "schedule": ["* 20-23 * * 5", "* * * * 6"],
+  "lockFileMaintenance": {
+    "schedule": ["* 20-23 * * 5", "* * * * 6"]
+  },
   "packageRules": [
     {
-      "description": "major は人間が判断する",
-      "matchUpdateTypes": ["major"],
-      "automerge": false
-    },
-    {
-      "description": "routine な更新は automerge に任せる",
+      "description": "週次更新では major 以外を 1 本の PR にまとめる。major は automerge しないため含めない（含めるとグループ全体が automerge されなくなる）。脆弱性の更新は vulnerabilityAlerts の既定により別 PR で随時出る",
       "matchUpdateTypes": ["minor", "patch", "pin", "pinDigest", "digest"],
-      "automerge": true
+      "groupName": "all non-major dependencies",
+      "groupSlug": "all-non-major"
     },
     {
-      "description": "lockfile 全体の更新も automerge の対象にする",
-      "matchUpdateTypes": ["lockFileMaintenance"],
-      "automerge": true
-    },
-    {
-      "description": "wrangler と workers-types は peer 依存で結合しているためまとめて更新する",
-      "matchPackageNames": ["wrangler", "@cloudflare/workers-types"],
-      "groupName": "cloudflare",
-      "separateMajorMinor": false
-    },
-    {
-      "description": "astro と @astrojs/* は peer で結合しているためまとめて更新する。@astrojs/svelte@8 の peer が astro ^6.0.0 のように、astro の major を単独で上げると ERESOLVE になる",
-      "matchPackageNames": ["astro", "/^@astrojs\\//"],
-      "groupName": "astro"
-    },
-    {
-      "matchPackageNames": ["/eslint/"],
-      "addLabels": ["dependencies:lint"]
-    },
-    {
-      "matchPackageNames": ["/prettier/"],
-      "addLabels": ["dependencies:format"]
+      "description": "lint / format のツールは all-non-major から外して別の PR にまとめる。グループの PR には含まれる全更新のラベルが合算されて付くため、混ぜると dependencies:lint / dependencies:format の付いた PR に見た目に関わる更新が紛れ込み、ラベルでプレビューを省けなくなる。条件は base.json の dependencies:lint / dependencies:format の規則と揃えること",
+      "matchPackageNames": ["/eslint/", "/prettier/"],
+      "matchUpdateTypes": ["minor", "patch", "pin", "pinDigest", "digest"],
+      "groupName": "lint and format tools",
+      "groupSlug": "lint-format"
     }
   ]
 }

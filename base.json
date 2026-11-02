@@ -1,0 +1,68 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:best-practices"],
+  "dependencyDashboard": false,
+  "timezone": "Asia/Tokyo",
+  "labels": ["dependencies"],
+  "packageRules": [
+    {
+      "description": "major は automerge しない",
+      "matchUpdateTypes": ["major"],
+      "automerge": false
+    },
+    {
+      "description": "TypeScript v7 / ESLint v10 / eslint-plugin-astro v3 は上流の peer 対応まで更新を停止する。対応状況を定期確認し、install と CI が成功したらこの無効化を解除する",
+      "matchPackageNames": ["typescript", "eslint", "eslint-plugin-astro"],
+      "matchUpdateTypes": ["major"],
+      "enabled": false
+    },
+    {
+      "description": "minor 以下は automerge",
+      "matchUpdateTypes": ["minor", "patch", "pin", "pinDigest", "digest"],
+      "automerge": true
+    },
+    {
+      "description": "lockfile 全体の更新も automerge",
+      "matchUpdateTypes": ["lockFileMaintenance"],
+      "automerge": true
+    },
+    {
+      "description": "wrangler と workers-types は peer 依存で結合しているためまとめて更新する",
+      "matchPackageNames": ["wrangler", "@cloudflare/workers-types"],
+      "groupName": "cloudflare",
+      "separateMajorMinor": false
+    },
+    {
+      "description": "astro と @astrojs/* は peer で結合しているためまとめて更新する",
+      "matchPackageNames": ["astro", "/^@astrojs\\//"],
+      "groupName": "astro"
+    },
+    {
+      "description": "lucide のアイコンパッケージは同一モノレポで同時にリリースされるためまとめて更新する。別のリリース列を持つ @lucide/lab・内部ツール（@lucide/build-icons 等）・deprecated な lucide-vue-next / lucide-angular / lucide-svelte は含めない",
+      "matchPackageNames": [
+        "lucide",
+        "lucide-preact",
+        "lucide-react",
+        "lucide-react-native",
+        "lucide-solid",
+        "lucide-static",
+        "@lucide/angular",
+        "@lucide/astro",
+        "@lucide/icons",
+        "@lucide/svelte",
+        "@lucide/vue"
+      ],
+      "groupName": "lucide"
+    },
+    {
+      "description": "条件は default.json の lint-format グループと揃えること。呼び出し側はこのラベルで renovate の PR のプレビューを省いており、片方だけ変えるとグループの PR に見た目に関わる更新が混ざったままラベルが付く",
+      "matchPackageNames": ["/eslint/"],
+      "addLabels": ["dependencies:lint"]
+    },
+    {
+      "description": "条件は default.json の lint-format グループと揃えること。呼び出し側はこのラベルで renovate の PR のプレビューを省いており、片方だけ変えるとグループの PR に見た目に関わる更新が混ざったままラベルが付く",
+      "matchPackageNames": ["/prettier/"],
+      "addLabels": ["dependencies:format"]
+    }
+  ]
+}
