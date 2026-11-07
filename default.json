@@ -8,14 +8,29 @@
   "packageRules": [
     {
       "description": "週次更新では major 以外を 1 本の PR にまとめる。major は automerge しないため含めない（含めるとグループ全体が automerge されなくなる）。脆弱性の更新は vulnerabilityAlerts の既定により別 PR で随時出る",
-      "matchUpdateTypes": ["minor", "patch", "pin", "pinDigest", "digest"],
+      "matchUpdateTypes": ["patch", "pin", "pinDigest", "digest"],
+      "groupName": "all non-major dependencies",
+      "groupSlug": "all-non-major"
+    },
+    {
+      "description": "minor も同じグループに入れる。ただし 0 系（1.0.0 未満）の minor は base.json で automerge しないため含めず、major と同じく個別の PR にする（含めるとグループ全体が automerge されなくなる）",
+      "matchCurrentVersion": ">= 1.0.0",
+      "matchUpdateTypes": ["minor"],
       "groupName": "all non-major dependencies",
       "groupSlug": "all-non-major"
     },
     {
       "description": "lint / format のツールは all-non-major から外して別の PR にまとめる。グループの PR には含まれる全更新のラベルが合算されて付くため、混ぜると dependencies:lint / dependencies:format の付いた PR に見た目に関わる更新が紛れ込み、ラベルでプレビューを省けなくなる。条件は base.json の dependencies:lint / dependencies:format の規則と揃えること",
       "matchPackageNames": ["/eslint/", "/prettier/"],
-      "matchUpdateTypes": ["minor", "patch", "pin", "pinDigest", "digest"],
+      "matchUpdateTypes": ["patch", "pin", "pinDigest", "digest"],
+      "groupName": "lint and format tools",
+      "groupSlug": "lint-format"
+    },
+    {
+      "description": "minor も同じグループに入れる。0 系の minor を含めない理由は all-non-major と同じ",
+      "matchPackageNames": ["/eslint/", "/prettier/"],
+      "matchCurrentVersion": ">= 1.0.0",
+      "matchUpdateTypes": ["minor"],
       "groupName": "lint and format tools",
       "groupSlug": "lint-format"
     }

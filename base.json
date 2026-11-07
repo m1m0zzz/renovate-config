@@ -22,6 +22,12 @@
       "automerge": true
     },
     {
+      "description": "0 系（1.0.0 未満）の minor は major と同じく automerge しない。renovate は 0.x → 0.y を minor と判定するが、semver は 0 系の minor に互換を約束せず、実際に API が変わる（@ffmpeg/ffmpeg 0.10 → 0.12、@tremolo-ui/react 0.5 → 0.9）。0 系の patch は ^ の範囲内で互換を期待できるため automerge のまま",
+      "matchCurrentVersion": "< 1.0.0",
+      "matchUpdateTypes": ["minor"],
+      "automerge": false
+    },
+    {
       "description": "lockfile 全体の更新も automerge",
       "matchUpdateTypes": ["lockFileMaintenance"],
       "automerge": true

@@ -24,6 +24,7 @@ m1m0zzz のリポジトリ共通の Renovate 設定プリセット
 
 - PR を作るのは金曜 20 時〜土曜終日のみ（`schedule: ["* 20-23 * * 5", "* * * * 6"]`、`timezone: Asia/Tokyo`）。作成済みの PR の rebase と automerge は曜日を問わず続く
 - `minor` / `patch` / `pin` / `pinDigest` / `digest` を `all non-major dependencies` の 1 本にまとめる
+- ただし 0 系（1.0.0 未満）の `minor` はまとめず、`major` と同じく個別の PR にする。`base` で automerge しないため、混ぜるとグループ全体が automerge されなくなる
 - ただし eslint 関連と prettier 関連は `lint and format tools` の別の 1 本にする。グループの PR には含まれる全更新のラベルが合算されて付くため、混ぜると `dependencies:lint` / `dependencies:format` の付いた PR に見た目に関わる更新が紛れ込み、ラベルで見分けられなくなる
 - `major` はまとめない。automerge しない更新が入るとグループ全体が automerge されなくなるため、従来どおり個別（または下記のグループ単位）の PR になる
 - `lockFileMaintenance` も同じ枠で出す。Renovate は lockfile の再生成を他の更新と同じ PR にまとめられないため、別の PR になる
@@ -37,6 +38,7 @@ m1m0zzz のリポジトリ共通の Renovate 設定プリセット
 | :-- | :-- | :-- |
 | `major` | ❌ | 破壊的変更を含みうるため人間が判断する |
 | `minor` / `patch` | ✅ | CI が緑であることが条件 |
+| `minor`（0 系） | ❌ | 1.0.0 未満の `0.x → 0.y`。renovate は minor と判定するが、semver は 0 系の minor に互換を約束しないため、`major` と同じく人間が判断する。0 系の `patch` は automerge する |
 | `pin` / `pinDigest` / `digest` | ✅ | `config:best-practices` による GitHub Actions の digest 固定を含む |
 | `lockFileMaintenance` | ✅ | lockfile 全体の再生成 |
 
