@@ -44,6 +44,8 @@ m1m0zzz のリポジトリ共通の Renovate 設定プリセット
 
 TypeScript v7 / ESLint v10 / `eslint-plugin-astro` v3 の major は、上流の peer 対応まで更新を止めている。
 
+Next.js から別のフレームワークへ移す予定のリポジトリ（`matchRepositories` で指定）では、Next.js（`next`・`@next/*`・`eslint-config-next` など、vercel/next.js から出るもの）の major を止めている。
+
 その他の設定（`default` ではグループ化により major 以外は `all non-major dependencies` にまとまるため、以下のグループは主に major で効く）:
 
 - 全 PR に `dependencies` ラベル。eslint 関連には `dependencies:lint`、prettier 関連には `dependencies:format` を追加
