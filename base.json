@@ -19,7 +19,6 @@
     {
       "description": "これらのリポジトリは Next.js から別のフレームワークへ移す（m1m0zzz.github.io はリダイレクトだけにする）予定のため、Next.js の major は追わない。patch / minor はこれまでどおり。移行が済んで Next.js が依存から外れたら、そのリポジトリをここから消す",
       "matchRepositories": [
-        "m1m0zzz/visualizers",
         "m1m0zzz/MNoto-Sans-playground",
         "m1m0zzz/mmz_tools",
         "m1m0zzz/bound-sampler",
